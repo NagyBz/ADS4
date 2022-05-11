@@ -1,7 +1,7 @@
 # Python3 program for the above approach
 
 # Stores the parent of each vertex
-parent = [0] * (1000000)
+parent = None
 
 
 # Function to find the topmost
@@ -38,7 +38,8 @@ def connectedComponents(n):
     for i in range(n):
         # Insert all topmost
         # vertices obtained
-        s.add(root(parent[i]))
+        r = root(parent[i])
+        s.add(r)
 
     # Print count of connected components
     print(len(s))
@@ -47,7 +48,7 @@ def connectedComponents(n):
 # Function to print answer
 def printAnswer(N, edges):
     # Setting parent to itself
-    for i in range(N + 1):
+    for i in range(N):
         parent[i] = i
 
     # Traverse all edges
@@ -80,18 +81,25 @@ inv_map = {v: k for k, v in mapper.items()}
 
 # Given N
 N = len(verticies)
-
+parent = [0] * N
 # Given edges
 edges = []
 
 for line in Lines:
-
     splitted = line.split(' ')
-
     v1 = inv_map[splitted[0].strip()]
     v2 = inv_map[splitted[1].strip()]
-
     edges.append([v1,v2])
 
 printAnswer(N, edges)
-# This code is contributed by divyesh072019
+
+for i in range (N):
+    for j in range(N):
+        if parent[i] != parent[j] :
+            edges.append([i,j])
+            for k in range(N):
+                if parent[k] == parent[j]:
+                    parent[k]=parent[i]
+
+
+printAnswer(N, edges)
