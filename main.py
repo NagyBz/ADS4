@@ -58,9 +58,13 @@ def printAnswer(N, edges):
     # Print answer
     connectedComponents(N)
 
+def join(tmp):
+    for k in range(N):
+        if parent[k] == tmp:
+            parent[k] = parent[i]
 
 # Using readlines()
-file1 = open('graf.txt', 'r')
+file1 = open('test.txt', 'r')
 Lines = file1.readlines()
 
 verticies = set()
@@ -84,6 +88,7 @@ N = len(verticies)
 parent = [0] * N
 # Given edges
 edges = []
+new_edges= []
 
 for line in Lines:
     splitted = line.split(' ')
@@ -96,10 +101,12 @@ printAnswer(N, edges)
 for i in range (N):
     for j in range(N):
         if parent[i] != parent[j] :
+
             edges.append([i,j])
-            for k in range(N):
-                if parent[k] == parent[j]:
-                    parent[k]=parent[i]
+            new_edges.append([mapper[i], mapper[j]])
+            tmp = parent[j]
+            join(tmp)
 
 
 printAnswer(N, edges)
+print(len(new_edges))
